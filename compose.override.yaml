@@ -1,0 +1,10 @@
+services:
+  ###< doctrine/doctrine-bundle ###
+
+  ###> symfony/mailer ###
+  mailhog:
+    image: mailhog/mailhog:${MAILHOG_VERSION:-latest}
+    ports:
+      - "1025:1025" # SMTP
+      - "8025:8025" # UI Interface
+###< symfony/mailer ###

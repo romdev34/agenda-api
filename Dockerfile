@@ -1,0 +1,43 @@
+ARG PHP_VERSION='latest'
+
+FROM ulysse699/composer:latest AS vendors-installation
+ARG APP_ENV
+ENV \
+COMPOSER_ALLOW_SUPERUSER="1" \
+COMPOSER_ALLOW_XDEBUG="0" \
+COMPOSER_CACHE_DIR="/var/cache/composer" \
+COMPOSER_AUTH="${COMPOSER_AUTH}"
+
+VOLUME ["/var/cache/composer"]
+
+#COPY src /src
+
+FROM ulysse699/app-php:${PHP_VERSION}
+
+USER root
+
+#installation de make
+RUN set -xe \
+    && apt update && apt install -y make
+
+ENV \
+PHP_MEMORY_LIMIT="4096M"
+
+COPY --chown=rootless:rootless src /var/www
+
+COPY --chown=rootless:rootless --from=vendors-installation /usr/bin/composer /usr/bin/composer
+RUN composer self-update
+
+COPY --chown=rootless:rootless system /
+
+ARG APP_ENV
+RUN set -eux; \
+if [ "$APP_ENV" = "dev" ]; \
+then \
+    echo "/docker/d-bootstrap-symfony-local.sh" >> /docker/d-bootstrap.list; \
+elif [ "$APP_ENV" = "prod"  ]; then \
+    echo "/docker/d-bootstrap-symfony-prod.sh" >> /docker/d-bootstrap.list; \
+fi; \
+chmod +x /docker/d-*.sh
+
+USER rootless
