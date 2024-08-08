@@ -5,7 +5,7 @@ services:
   symfony:
     env_file:
       - dev.env
-    image: symfony-skelton:1.0
+    image: ulysse699/symfony-skelton:1.0
     volumes:
       - ./src:/var/www:rw,delegated
     hostname: symfony
