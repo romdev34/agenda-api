@@ -19,11 +19,11 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 
-//La dénormalization permet de selectionner les propriétés du JSON en qui seront pris en compte pour créer l'objet à traiter par l'API pour ecriture en BDD ou autre
+//La dénormalization permet de selectionner les propriétés du JSON en qui seront pris en compte pour recréer l'objet correspondant à l'entité à traiter par l'API pour ecriture en BDD ou autre
 #[Post(denormalizationContext: [
     'groups' => ['user:write'],
 ], processor: UserPasswordHasherStateProcessor::class, )]
-//La normalization permet de selectionner les propriétés de l'objet qui seront envoyés et encodés en JSON pour lecture
+//La normalization permet de selectionner les propriétés de l'objet (l'entité) qui seront envoyés et encodés en JSON pour lecture
 #[GetCollection(normalizationContext: [
     'groups' => ['user:read'],
     ],

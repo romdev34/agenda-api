@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Post;
 use App\Repository\EventRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,10 +14,11 @@ use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 #[ApiResource(
-        operations: [
-            new Get(normalizationContext: ['groups' => 'event:item']),
-            new GetCollection(normalizationContext: ['groups' => 'event:list'])
-        ],
+    operations: [
+        new Post(denormalizationContext: ['groups' => 'event:write']),
+        new Get(normalizationContext: ['groups' => 'event:item']),
+        new GetCollection(normalizationContext: ['groups' => 'event:list'])
+    ],
     paginationEnabled: false,
 )]
 class Event
@@ -28,16 +30,12 @@ class Event
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['event:list', 'event:item'])]
+    #[Groups(['event:list', 'event:item', 'event:write'])]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['event:list', 'event:item'])]
+    #[Groups(['event:list', 'event:item', 'event:write'])]
     private ?string $details = null;
-
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['event:list', 'event:item'])]
-    private ?\DateTimeInterface $dateEvent = null;
 
     #[ORM\Column]
     #[Gedmo\Timestampable]
@@ -48,6 +46,18 @@ class Event
     #[Gedmo\Timestampable(on: 'create')]
     #[Groups(['event:list', 'event:item'])]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['event:list', 'event:item', 'event:write'])]
+    private ?\DateTimeInterface $start_date_event = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['event:list', 'event:item', 'event:write'])]
+    private ?\DateTimeInterface $end_date_event = null;
+
+    #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['event:list', 'event:item', 'event:write'])]
+    private ?int $priority = null;
 
     public function getId(): ?int
     {
@@ -78,18 +88,6 @@ class Event
         return $this;
     }
 
-    public function getDateEvent(): ?\DateTimeInterface
-    {
-        return $this->dateEvent;
-    }
-
-    public function setDateEvent(\DateTimeInterface $dateEvent): static
-    {
-        $this->dateEvent = $dateEvent;
-
-        return $this;
-    }
-
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
@@ -113,4 +111,40 @@ class Event
 //
 //        return $this;
 //    }
+
+    public function getStartDateEvent(): ?\DateTimeInterface
+    {
+        return $this->start_date_event;
+    }
+
+    public function setStartDateEvent(\DateTimeInterface $start_date_event): static
+    {
+        $this->start_date_event = $start_date_event;
+
+        return $this;
+    }
+
+    public function getEndDateEvent(): ?\DateTimeInterface
+    {
+        return $this->end_date_event;
+    }
+
+    public function setEndDateEvent(?\DateTimeInterface $end_date_event): static
+    {
+        $this->end_date_event = $end_date_event;
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): static
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
 }
