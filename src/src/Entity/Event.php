@@ -52,13 +52,9 @@ class Event
     #[Groups(['event:list', 'event:item', 'event:write'])]
     private ?DateTimeInterface $start_date_event = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['event:list', 'event:item', 'event:write'])]
     private ?DateTimeInterface $end_date_event = null;
-
-    #[ORM\Column(type: Types::SMALLINT)]
-    #[Groups(['event:list', 'event:item', 'event:write'])]
-    private ?int $priority = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['event:list', 'event:item', 'event:write'])]
@@ -153,18 +149,6 @@ class Event
     public function setEndDateEvent(?DateTimeInterface $end_date_event): static
     {
         $this->end_date_event = $end_date_event;
-
-        return $this;
-    }
-
-    public function getPriority(): ?int
-    {
-        return $this->priority;
-    }
-
-    public function setPriority(int $priority): static
-    {
-        $this->priority = $priority;
 
         return $this;
     }
