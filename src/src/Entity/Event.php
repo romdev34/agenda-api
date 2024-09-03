@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use App\Repository\EventRepository;
 use DateTimeInterface;
@@ -17,6 +19,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     operations: [
         new Post(denormalizationContext: ['groups' => 'event:write']),
+        new Delete(),
+        new Put(),
         new Get(normalizationContext: ['groups' => 'event:item']),
         new GetCollection(normalizationContext: ['groups' => 'event:list'])
     ],
@@ -38,23 +42,23 @@ class Event
     #[Groups(['event:list', 'event:item', 'event:write'])]
     private ?string $details = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Gedmo\Timestampable]
     #[Groups(['event:list', 'event:item'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     #[Gedmo\Timestampable(on: 'create')]
     #[Groups(['event:list', 'event:item'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['event:list', 'event:item', 'event:write'])]
-    private ?DateTimeInterface $start_date_event = null;
+    private ?DateTimeInterface $startDateEvent = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     #[Groups(['event:list', 'event:item', 'event:write'])]
-    private ?DateTimeInterface $end_date_event = null;
+    private ?DateTimeInterface $endDateEvent = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['event:list', 'event:item', 'event:write'])]
@@ -131,24 +135,24 @@ class Event
 
     public function getStartDateEvent(): ?DateTimeInterface
     {
-        return $this->start_date_event;
+        return $this->startDateEvent;
     }
 
-    public function setStartDateEvent(DateTimeInterface $start_date_event): static
+    public function setStartDateEvent(DateTimeInterface $startDateEvent): static
     {
-        $this->start_date_event = $start_date_event;
+        $this->startDateEvent = $startDateEvent;
 
         return $this;
     }
 
     public function getEndDateEvent(): ?DateTimeInterface
     {
-        return $this->end_date_event;
+        return $this->endDateEvent;
     }
 
-    public function setEndDateEvent(?DateTimeInterface $end_date_event): static
+    public function setEndDateEvent(?DateTimeInterface $endDateEvent): static
     {
-        $this->end_date_event = $end_date_event;
+        $this->endDateEvent = $endDateEvent;
 
         return $this;
     }

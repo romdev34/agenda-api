@@ -1,0 +1,15 @@
+http:
+  routers:
+    traefik:
+      rule: "Host(`traefik.romdev.ovh`)"
+      service: "api@internal"
+      tls:
+        domains:
+          - main: "romdev.ovh"
+            sans:
+              - "*.romdev.ovh"
+
+tls:
+  certificates:
+    - certFile: "/etc/letsencrypt/live/romdev.ovh-0002/fullchain.pem"
+      keyFile: "/etc/letsencrypt/live/romdev.ovh-0002/privkey.pem"

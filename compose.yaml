@@ -52,6 +52,24 @@ services:
       timeout: 15s
       retries: 10
 
+  traefik:
+    restart: unless-stopped
+    image: traefik:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    labels:
+      # Permettre à ce conteneur d'être accessible par traefik
+      # Pour plus d'information, voir : https://docs.traefik.io/providers/docker/#exposedbydefault
+      - "traefik.enable=true"
+      # Utilise la configuration du routeur "traefik" définie dans le fichier de configuration dynamique : ./traefik/config.yml
+      - "traefik.http.routers.traefik=true"
+    volumes:
+      - ./traefik:/etc/traefik
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./certs:/etc/certs
+
+
 
 volumes:
   ###> doctrine/doctrine-bundle ###
