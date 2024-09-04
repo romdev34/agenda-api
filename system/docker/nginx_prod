@@ -1,26 +1,26 @@
 server {
     client_max_body_size 100M;
-    listen 8080;
-    listen [::]:8080;
-    server_name latarteriepalavas.fr;
+    listen 8010;
+    listen [::]:8010;
+    server_name agenda-react.romdev.ovh;
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;
     }
 
         location / {
-        return 301 https://latarteriepalavas.fr$request_uri;
+        return 301 https://agenda-react.romdev.ovh$request_uri;
     }
-    error_log /var/log/nginx/tarterie_error.log;
-    access_log /var/log/nginx/tarterie_access.log;
+    error_log /var/log/nginx/agenda-react_error.log;
+    access_log /var/log/nginx/agenda-react_access.log;
 }
 server {
-    listen 8443  ssl;
+    listen 8011  ssl;
     root /var/www/public;
-    server_name latarteriepalavas.fr;
+    server_name agenda-react.romdev.ovh;
 
-    ssl_certificate /etc/nginx/ssl/live/latarteriepalavas.fr/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/live/latarteriepalavas.fr/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/romdev.ovh-0002/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/romdev.ovh-0002/privkey.pem;
 
       location / {
         # try to serve file directly, fallback to index.php
@@ -83,6 +83,6 @@ server {
         return 404;
     }
 
-    error_log /var/log/nginx/tarterie_error.log;
-    access_log /var/log/nginx/tarterie_access.log;
+    error_log /var/log/nginx/agenda-react_error.log;
+    access_log /var/log/nginx/agenda-react_access.log;
 }

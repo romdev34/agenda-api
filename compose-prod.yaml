@@ -1,0 +1,54 @@
+services:
+
+  symfony:
+    env_file:
+      - dev.env
+    image: ulysse699/symfony-agenda-api-prod:1.0
+    volumes:
+      - ./src:/var/www:rw,delegated
+    hostname: symfony
+    links:
+      - mysql
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - '8010:8010'
+      - '8011:8011'
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  phpmyadmin:
+    ports:
+      - '8082:80'
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+      - PMA_HOST=mysql
+      - MYSQL_ROOT_PASSWORD=root
+      - PMA_USER=rootless
+      - PMA_PASSWORD=rootless
+
+  mysql:
+    image: mysql:${MYSQL_VERSION:-8.0}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
+      MYSQL_USER: ${MYSQL_USER:-rootless}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-rootless}
+    volumes:
+      - agenda_database_data:/var/lib/mysql:rw
+    restart: always
+    ports:
+      - '127.0.0.1:3306:3306'
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 15s
+      retries: 10
+
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  agenda_database_data:
