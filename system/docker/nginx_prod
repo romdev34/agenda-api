@@ -19,8 +19,8 @@ server {
     root /var/www/public;
     server_name agenda-react.romdev.ovh;
 
-    ssl_certificate /etc/letsencrypt/live/romdev.ovh-0002/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/romdev.ovh-0002/privkey.pem;
+    ssl_certificate /etc/nginx/ssl/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/privkey.pem;
 
       location / {
         # try to serve file directly, fallback to index.php
