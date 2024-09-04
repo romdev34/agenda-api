@@ -7,7 +7,6 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Doctrine\Orm\State\ItemProvider;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use App\Entity\User;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 
