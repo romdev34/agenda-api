@@ -30,8 +30,6 @@ services:
     environment:
       - PMA_HOST=mysql
       - MYSQL_ROOT_PASSWORD=root
-      - PMA_USER=rootless
-      - PMA_PASSWORD=n=f;+]Nz:rXp4c3
 
   mysql:
     image: mysql:${MYSQL_VERSION:-8.0}
@@ -39,7 +37,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-app}
       MYSQL_USER: ${MYSQL_USER:-rootless}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-rootless}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-n=f;+]Nz:rXp4c3}
     volumes:
       - agenda_database_data:/var/lib/mysql:rw
     restart: always
