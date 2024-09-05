@@ -31,7 +31,7 @@ services:
       - PMA_HOST=mysql
       - MYSQL_ROOT_PASSWORD=root
       - PMA_USER=rootless
-      - PMA_PASSWORD=rootless
+      - PMA_PASSWORD=RoITO@2024!
 
   mysql:
     image: mysql:${MYSQL_VERSION:-8.0}
