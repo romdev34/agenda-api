@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Post;
 use App\Repository\EventRepository;
+use DateMalformedStringException;
 use DateTimeInterface;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -43,13 +44,11 @@ class Event
     private ?string $details = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    #[Gedmo\Timestampable]
-    #[Groups(['event:list', 'event:item'])]
+    #[Groups(['event:list', 'event:item', 'event:write'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
-    #[Gedmo\Timestampable(on: 'create')]
-    #[Groups(['event:list', 'event:item'])]
+    #[Groups(['event:list', 'event:item', 'event:write'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
@@ -114,24 +113,24 @@ class Event
         return $this->updatedAt;
     }
 
-//    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-//    {
-//        $this->updatedAt = $updatedAt;
-//
-//        return $this;
-//    }
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-//    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-//    {
-//        $this->createdAt = $createdAt;
-//
-//        return $this;
-//    }
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
 
     public function getStartDateEvent(): ?DateTimeInterface
     {

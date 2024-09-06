@@ -20,3 +20,10 @@ nq>2sX5?&4TD@Gy
 #### credential phpmyadmin
 rootless
 n=f;+]Nz:rXp4c3
+
+
+#### if you need to change mysql password
+docker exec -ti agenda-api-mysql-1 mysql -u root -prootpassword
+
+Puis
+SET PASSWORD FOR 'rootless' = 'nouveaumotdepasse';
