@@ -7,7 +7,10 @@ docker build --no-cache . --tag ulysse699/symfony-agenda-api-prod:1.0 --build-ar
 
 Verifier que dans le docker compose les images soient correctement appelées.
 
-### Lancer les services
+### Lancer le conteneur en prod
+docker compose -f compose-local.yaml up
+
+### Lancer le conteneur en prod
 docker compose -f compose-prod.yaml up
 
 Ne pas oublier de jouer la commande
