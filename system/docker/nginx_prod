@@ -15,7 +15,7 @@ server {
     access_log /var/log/nginx/agenda-api_access.log;
 }
 server {
-    listen 8011  ssl;
+    listen 8011;
     root /var/www/public;
     server_name agenda-api.romdev.ovh;
     add_header Access-Control-Allow-Origin * always;
