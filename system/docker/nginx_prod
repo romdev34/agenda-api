@@ -15,11 +15,13 @@ server {
     access_log /var/log/nginx/agenda-api_access.log;
 }
 server {
-    listen 8011;
+    listen 8011  ssl;
     root /var/www/public;
     server_name agenda-api.romdev.ovh;
     add_header Access-Control-Allow-Origin * always;
 
+    ssl_certificate /etc/nginx/ssl/fullchain.pem;
+    ssl_certificate_key /etc/nginx/ssl/privkey.pem;
 
       location / {
         # try to serve file directly, fallback to index.php
