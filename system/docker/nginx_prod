@@ -20,8 +20,8 @@ server {
     server_name agenda-api.romdev.ovh;
     add_header Access-Control-Allow-Origin * always;
 
-    ssl_certificate /etc/nginx/ssl/fullchain.pem;
-    ssl_certificate_key /etc/nginx/ssl/privkey.pem;
+    ssl_certificate /etc/nginx/ssl/fullchain1.pem;
+    ssl_certificate_key /etc/nginx/ssl/privkey1.pem;
 
       location / {
         # try to serve file directly, fallback to index.php
