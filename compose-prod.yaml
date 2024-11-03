@@ -8,14 +8,24 @@ services:
       - ./src:/var/www:rw,delegated
       - /etc/letsencrypt/archive/romdev.ovh:/etc/nginx/ssl/:rw
     hostname: symfony
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.symfony.rule=Host(`agenda-api.romdev.ovh`)"
+      - "traefik.http.routers.symfony.entrypoints=websecure"
+      - "traefik.http.routers.symfony.tls.certresolver=letsencrypt"
+      - "traefik.http.services.symfony.loadbalancer.server.port=80"
     links:
       - mysql
     depends_on:
       mysql:
         condition: service_healthy
     ports:
-      - '8010:8010'
-      - '8011:8011'
+      - '80:80'
+      - '443:443'
+      - '443:443'
+    networks:
+      - proxy
+      - agenda_api
     extra_hosts:
       - host.docker.internal:host-gateway
 
@@ -27,6 +37,9 @@ services:
     links:
       - mysql
     image: phpmyadmin/phpmyadmin:latest
+    networks:
+      - proxy
+      - agenda_api
     environment:
       - PMA_HOST=mysql
       - MYSQL_ROOT_PASSWORD=root
@@ -47,7 +60,15 @@ services:
       test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
       timeout: 15s
       retries: 10
+    networks:
+      - agenda_api
 
 volumes:
   ###> doctrine/doctrine-bundle ###
   agenda_database_data:
+
+networks:
+  proxy:
+    external: true
+  agenda_api:
+    internal: true
