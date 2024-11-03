@@ -6,6 +6,7 @@ services:
     image: ulysse699/symfony-agenda-api-prod:1.0
     volumes:
       - ./src:/var/www:rw,delegated
+      - /etc/letsencrypt/archive/romdev.ovh:/etc/nginx/ssl/:rw
     hostname: symfony
     labels:
       - "traefik.enable=true"

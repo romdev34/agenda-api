@@ -1,27 +1,11 @@
 server {
     client_max_body_size 100M;
-    listen 8010;
-    listen [::]:8010;
-    server_name agenda-api.romdev.ovh;
-
-    location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
-    }
-
-        location / {
-        return 301 https://agenda-api.romdev.ovh$request_uri;
-    }
-    error_log /var/log/nginx/agenda-api_error.log;
-    access_log /var/log/nginx/agenda-api_access.log;
-}
-server {
-    listen 8011  ssl;
     root /var/www/public;
+    listen 80;
     server_name agenda-api.romdev.ovh;
+
     add_header Access-Control-Allow-Origin * always;
 
-    ssl_certificate /etc/nginx/ssl/fullchain1.pem;
-    ssl_certificate_key /etc/nginx/ssl/privkey1.pem;
 
       location / {
         # try to serve file directly, fallback to index.php
