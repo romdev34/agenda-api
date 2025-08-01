@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\State;
 
 use ApiPlatform\Metadata\Operation;
@@ -12,9 +14,10 @@ class UserPasswordHasherStateProcessor implements ProcessorInterface
 {
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
-        private ProcessorInterface $persistProcessor,
+        private ProcessorInterface          $persistProcessor,
         private UserPasswordHasherInterface $passwordHasher
-    ) {}
+    ) {
+    }
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): User
     {
@@ -22,8 +25,8 @@ class UserPasswordHasherStateProcessor implements ProcessorInterface
             $password = $this->passwordHasher->hashPassword($data, $data->getPassword());
             $data->setPassword($password);
         }
+
         // Ensures the processed data is saved
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
-
     }
 }

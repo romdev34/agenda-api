@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
@@ -18,16 +20,15 @@ use ApiPlatform\Metadata\GetCollection;
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-
-//La dénormalization permet de selectionner les propriétés du JSON en qui seront pris en compte pour recréer l'objet correspondant à l'entité à traiter par l'API pour ecriture en BDD ou autre
+//La dénormalization permet de selectionner les propriétés du JSON qui seront pris en compte pour recréer l'objet correspondant à l'entité à traiter par l'API pour ecriture en BDD ou autre
 #[Post(denormalizationContext: [
     'groups' => ['user:write'],
-], processor: UserPasswordHasherStateProcessor::class, )]
+],     processor             : UserPasswordHasherStateProcessor::class,)]
 //La normalization permet de selectionner les propriétés de l'objet (l'entité) qui seront envoyés et encodés en JSON pour lecture
 #[GetCollection(normalizationContext: [
     'groups' => ['user:read'],
-    ],
-    provider: UserStateProvider::class
+],
+                provider            : UserStateProvider::class
 )]
 #[Get(provider: UserStateProvider::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
