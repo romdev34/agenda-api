@@ -3,7 +3,9 @@ services:
   symfony:
     env_file:
       - dev.env
-    image: ulysse699/symfony-agenda-api-dev:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile-local
     volumes:
       - ./src:/var/www:rw,delegated
     hostname: symfony

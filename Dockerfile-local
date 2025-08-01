@@ -32,12 +32,7 @@ COPY --chown=rootless:rootless system /
 
 ARG APP_ENV
 RUN set -eux; \
-if [ "$APP_ENV" = "dev" ]; \
-then \
-    echo "/docker/d-bootstrap-symfony-local.sh" >> /docker/d-bootstrap.list; \
-elif [ "$APP_ENV" = "prod"  ]; then \
-    echo "/docker/d-bootstrap-symfony-prod.sh" >> /docker/d-bootstrap.list; \
-fi; \
+echo "/docker/d-bootstrap-symfony-local.sh" >> /docker/d-bootstrap.list; \
 chmod +x /docker/d-*.sh
 
 USER rootless

@@ -3,7 +3,9 @@ services:
   symfony:
     env_file:
       - dev.env
-    image: ulysse699/symfony-agenda-api-prod:1.0
+    build:
+      context: .
+      dockerfile: Dockerfile-prod
     volumes:
       - ./src:/var/www:rw,delegated
       - /etc/letsencrypt/archive/romdev.ovh:/etc/nginx/ssl/:rw
