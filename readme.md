@@ -2,7 +2,7 @@
 docker build --no-cache -f Dockerfile-local . --tag ulysse699/symfony-agenda-api-dev:1.0
 
 ### build prod image
-docker build --no-cache -f Dockerfile-local . --tag ulysse699/symfony-agenda-api-dev:1.0
+docker build --no-cache -f Dockerfile-prod . --tag ulysse699/symfony-agenda-api-dev:1.0
 
 ### Lancer le conteneur en local
 docker compose -f compose-local.yaml up

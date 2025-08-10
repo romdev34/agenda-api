@@ -2,7 +2,7 @@ services:
 
   symfony:
     env_file:
-      - dev.env
+      - .env.prod
     build:
       context: .
       dockerfile: Dockerfile-prod
